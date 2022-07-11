@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/cbeuw/Cloak/internal/client/browsers"
 	"github.com/cbeuw/Cloak/internal/common"
 	log "github.com/sirupsen/logrus"
 
@@ -238,16 +239,16 @@ func (raw *RawConfig) ProcessRawConfig(worldState common.WorldState) (local Loca
 	case "direct":
 		fallthrough
 	default:
-		var browser browser
+		var browser browsers.Browser
 		switch strings.ToLower(raw.BrowserSig) {
 		case "firefox":
-			browser = &Firefox{}
+			browser = &browsers.Firefox{}
 		case "safari":
-			browser = &Safari{}
+			browser = &browsers.Safari{}
 		case "chrome":
 			fallthrough
 		default:
-			browser = &Chrome{}
+			browser = &browsers.Chrome{}
 		}
 		remote.TransportMaker = func() Transport {
 			return &DirectTLS{
