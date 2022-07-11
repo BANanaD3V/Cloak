@@ -1,28 +1,15 @@
-package client
+package transports
 
 import (
-	"encoding/binary"
-	"encoding/hex"
-	"net"
-
 	"github.com/cbeuw/Cloak/internal/client/browsers"
 	"github.com/cbeuw/Cloak/internal/common"
 	log "github.com/sirupsen/logrus"
+	"net"
 )
-
-const appDataMaxLength = 16401
-
-func decodeHex(s string) []byte {
-	b, err := hex.DecodeString(s)
-	if err != nil {
-		panic(err)
-	}
-	return b
-}
 
 type DirectTLS struct {
 	*common.TLSConn
-	browser browsers.Browser
+	Browser browsers.Browser
 }
 
 // Handshake handles the TLS handshake for a given conn and returns the sessionKey
@@ -38,7 +25,7 @@ func (tls *DirectTLS) Handshake(rawConn net.Conn, authInfo AuthInfo) (sessionKey
 		X25519KeyShare: payload.ciphertextWithTag[32:64],
 		ServerName:     authInfo.MockDomain,
 	}
-	chOnly := tls.browser.ComposeClientHello(fields)
+	chOnly := tls.Browser.ComposeClientHello(fields)
 	chWithRecordLayer := common.AddRecordLayer(chOnly, common.Handshake, common.VersionTLS11)
 	_, err = rawConn.Write(chWithRecordLayer)
 	if err != nil {
