@@ -1,6 +1,6 @@
 // Fingerprint of Safari 16.4
 
-package client
+package browsers
 
 import (
 	"encoding/binary"
@@ -62,20 +62,20 @@ func (s *Safari) composeExtensions(serverName string, keyShare []byte) []byte {
 	return ret
 }
 
-func (s *Safari) composeClientHello(hd clientHelloFields) (ch []byte) {
+func (s *Safari) composeClientHello(hd ClientHelloFields) (ch []byte) {
 	var clientHello [12][]byte
 	clientHello[0] = []byte{0x01}                                                                                                           // handshake type
 	clientHello[1] = []byte{0x00, 0x01, 0xfc}                                                                                               // length 508
 	clientHello[2] = []byte{0x03, 0x03}                                                                                                     // client version
-	clientHello[3] = hd.random                                                                                                              // random
+	clientHello[3] = hd.Random                                                                                                              // random
 	clientHello[4] = []byte{0x20}                                                                                                           // session id length 32
-	clientHello[5] = hd.sessionId                                                                                                           // session id
+	clientHello[5] = hd.SessionId                                                                                                           // session id
 	clientHello[6] = []byte{0x00, 0x2a}                                                                                                     // cipher suites length 42
 	clientHello[7] = append(makeGREASE(), decodeHex("130113021303c02cc02bcca9c030c02fcca8c00ac009c014c013009d009c0035002fc008c012000a")...) // cipher suites
 	clientHello[8] = []byte{0x01}                                                                                                           // compression methods length 1
 	clientHello[9] = []byte{0x00}                                                                                                           // compression methods
 
-	extensions := s.composeExtensions(hd.serverName, hd.x25519KeyShare)
+	extensions := s.composeExtensions(hd.ServerName, hd.X25519KeyShare)
 	clientHello[10] = []byte{0x00, 0x00}
 	binary.BigEndian.PutUint16(clientHello[10], uint16(len(extensions))) // extension length
 	clientHello[11] = extensions

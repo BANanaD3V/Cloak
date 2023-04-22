@@ -1,14 +1,14 @@
-package client
+package browsers
 
 import (
 	"testing"
 )
 
-var safariHd = clientHelloFields{
-	random:         decodeHex("977ecef48c0fc5640fea4dbd638da89704d6d85ed2e81b8913ae5b27f9a5cc17"),
-	sessionId:      decodeHex("c2d5b91e77371bf154363b39194ac77c05617cc6164724d0ba7ded4aa349c6a3"),
-	x25519KeyShare: decodeHex("c99fbe80dda71f6e24d9b798dc3f3f33cef946f0b917fa90154a4b95114fae2a"),
-	serverName:     "github.com",
+var safariHd = ClientHelloFields{
+	Random:         decodeHex("977ecef48c0fc5640fea4dbd638da89704d6d85ed2e81b8913ae5b27f9a5cc17"),
+	SessionId:      decodeHex("c2d5b91e77371bf154363b39194ac77c05617cc6164724d0ba7ded4aa349c6a3"),
+	X25519KeyShare: decodeHex("c99fbe80dda71f6e24d9b798dc3f3f33cef946f0b917fa90154a4b95114fae2a"),
+	ServerName:     "github.com",
 }
 
 //func TestSafariJA3(t *testing.T) {

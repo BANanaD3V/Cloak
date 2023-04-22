@@ -1,12 +1,23 @@
 package browsers
 
-import "encoding/binary"
+import (
+	"encoding/binary"
+	"encoding/hex"
+)
 
 type ClientHelloFields struct {
 	Random         []byte
 	SessionId      []byte
 	X25519KeyShare []byte
 	ServerName     string
+}
+
+func decodeHex(s string) []byte {
+	b, err := hex.DecodeString(s)
+	if err != nil {
+		panic(err)
+	}
+	return b
 }
 
 // Browser represents the signature of a browser at a particular version
